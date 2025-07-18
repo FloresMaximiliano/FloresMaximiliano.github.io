@@ -1,0 +1,221 @@
+body {
+  background: #f8b6b8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Georgia', serif;
+}
+
+.contenedor {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  perspective: 1000px;
+  cursor: pointer;
+  margin-top: 50px;
+  background-color:#ff9a9e;
+  box-shadow:  0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sombra {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  width: 250px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  filter: blur(4px);
+}
+
+.sobre {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Parte triangular (solapa) */
+.solapa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 100px solid #ff9a9e;
+  transform-origin: top center;
+  transition: transform 0.8s ease-in-out;
+  z-index: 3;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Parte del sobre rectangular */
+.cuerpo {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 300px;
+  height: 150px;
+  background-color: #ff9a9e;
+  background-image: linear-gradient(135deg, #ff9a9e 50%, #fda0a4 50%);
+  z-index: 1;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Carta */
+.carta {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  width: 280px;
+  height: 130px;
+  background-color: #fefadc;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 2;
+  border: 2px dotted #ff9a9e;
+  text-align: center;
+  border-radius: 5px;
+}
+
+/* Fondo detrás de la carta */
+.fondo-carta {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  width: 280px;
+  height: 130px;
+  background-color: #ff9a9e;
+  border-radius: 5px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 1.5;
+}
+
+/* Estado abierto */
+.sobre.abierto .solapa {
+  transform: rotateX(-180deg);
+}
+
+.sobre.abierto .carta {
+  opacity: 1;
+  transform: translateY(-70px);
+  transition: opacity 0.8s ease, transform 0.8s ease 0.3s;
+}
+
+.sobre.abierto .fondo-carta {
+  opacity: 1;
+  transform: translateY(-70px);
+  transition: opacity 0.8s ease, transform 0.8s ease 0.2s;
+}
+
+/* Estilos para la imagen */
+.contenedor img {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 4px solid #ff9a9e;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 5;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  top: 200%;
+  left: 50%;
+  margin-left: -50px;
+}
+
+/* Estado abierto - mostrar imagen */
+.sobre.abierto + img {
+  opacity: 1;
+  transform: scale(1) translateY(-120px);
+  animation: rebote 3s ease-in-out infinite;
+  transition: opacity 0.8s ease, transform 0.8s ease 0.5s;
+}
+
+/* Animación de rebote */
+@keyframes rebote {
+  0% {
+    transform: translateY(-120px) scale(1);
+  }
+  40% {
+    transform: translateY(-180px) scale(1.05) rotate(5deg);
+  }
+  60% {
+    transform: translateY(-100px) scale(0.95) rotate(-5deg);
+  }
+  80% {
+    transform: translateY(-130px) scale(1);
+  }
+  100% {
+    transform: translateY(-120px) scale(1);
+  }
+}
+
+/* Corazones */
+.corazones {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  z-index: 10;
+}
+
+.corazon {
+  position: absolute;
+  font-size: 24px;
+  animation: flotar 2s ease-in-out infinite;
+  opacity: 0;
+  color: #ff7070;
+}
+
+.corazon:nth-child(1) {
+  left: -30px;
+  animation-delay: 0.1s;
+}
+
+.corazon:nth-child(2) {
+  left: 0;
+  animation-delay: 0.3s;
+}
+
+.corazon:nth-child(3) {
+  left: 30px;
+  animation-delay: 0.5s;
+}
+
+.corazones.mostrar {
+  display: block;
+}
+
+.corazones.mostrar .corazon {
+  animation: flotar 2s ease-in-out infinite;
+  opacity: 1;
+}
+
+@keyframes flotar {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-25px) rotate(5deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-50px) rotate(10deg);
+    opacity: 0;
+  }
+}
